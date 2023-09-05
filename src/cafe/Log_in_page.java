@@ -205,7 +205,7 @@ public class Log_in_page extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        User_Page rgpg = new User_Page();
+        Reg_Page rgpg = new Reg_Page();
         rgpg.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
