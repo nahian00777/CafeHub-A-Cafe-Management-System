@@ -55,7 +55,6 @@ public class User_Page extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanel1.setBackground(new java.awt.Color(0, 204, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -218,7 +217,7 @@ public class User_Page extends javax.swing.JFrame {
                 .addContainerGap(138, Short.MAX_VALUE))
         );
 
-        jLabel10.setIcon(new javax.swing.ImageIcon("D:\\MyApplication2\\CafeHub-A-Cafe-Management-System\\src\\images\\Go Back.png")); // NOI18N
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Go Back.png"))); // NOI18N
         jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel10MouseClicked(evt);

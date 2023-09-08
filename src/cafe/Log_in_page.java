@@ -81,9 +81,9 @@ public class Log_in_page extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\MyApplication2\\CafeHub-A-Cafe-Management-System\\src\\images\\Cafe.png")); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Cafe.png"))); // NOI18N
 
-        jLabel5.setIcon(new javax.swing.ImageIcon("D:\\MyApplication2\\CafeHub-A-Cafe-Management-System\\src\\images\\Go Back.png")); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Go Back.png"))); // NOI18N
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel5MouseClicked(evt);
@@ -154,7 +154,7 @@ public class Log_in_page extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
 
-        jLabel7.setIcon(new javax.swing.ImageIcon("D:\\MyApplication2\\CafeHub-A-Cafe-Management-System\\src\\images\\Cafe hub redefined.png")); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Cafe hub redefined.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);

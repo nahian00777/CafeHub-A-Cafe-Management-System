@@ -26,11 +26,10 @@ public class WelcomePage extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jPanel2.setBackground(new java.awt.Color(102, 29, 51));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("D:\\MyApplication2\\CafeHub-A-Cafe-Management-System\\src\\images\\tea-icon-14703.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/tea-icon-14703.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

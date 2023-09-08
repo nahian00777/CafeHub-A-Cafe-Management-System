@@ -56,7 +56,6 @@ public class Reg_Page extends javax.swing.JFrame {
         popupMenu1.setLabel("popupMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -127,7 +126,7 @@ public class Reg_Page extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jButton1.setText("Sign Up");
 
-        jLabel12.setIcon(new javax.swing.ImageIcon("D:\\MyApplication2\\CafeHub-A-Cafe-Management-System\\src\\images\\Go Back.png")); // NOI18N
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Go Back.png"))); // NOI18N
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel12MouseClicked(evt);
