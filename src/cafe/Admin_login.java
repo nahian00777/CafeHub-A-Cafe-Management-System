@@ -343,8 +343,8 @@ public class Admin_login extends javax.swing.JFrame {
                 this.dispose();
             }           
         } else if(jRadioButton3.isSelected()) {   
-                AdminDashBoard adb = new AdminDashBoard();
-                adb.setVisible(true);
+                UserGuestDashBoard ugdb = new UserGuestDashBoard();
+                ugdb.setVisible(true);
                 this.dispose();
         } else {
                 JOptionPane.showMessageDialog(null, "Please Choose and Option");           
