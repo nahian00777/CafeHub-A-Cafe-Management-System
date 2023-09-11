@@ -58,7 +58,6 @@ public class Reg_Page extends javax.swing.JFrame {
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jLabel17 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
 
@@ -206,8 +205,8 @@ public class Reg_Page extends javax.swing.JFrame {
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Accept Terms & Condition");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, -1, -1));
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 500, -1, -1));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 150, -1));
+        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 500, -1, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jButton1.setText("Sign Up");
@@ -233,7 +232,7 @@ public class Reg_Page extends javax.swing.JFrame {
 
         textArea1.setBackground(new java.awt.Color(46, 49, 55));
         textArea1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(textArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, 230, 120));
+        jPanel1.add(textArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, 230, 130));
 
         jComboBox2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
@@ -253,11 +252,10 @@ public class Reg_Page extends javax.swing.JFrame {
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField3.setForeground(new java.awt.Color(255, 255, 255));
         jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 450, 240, 30));
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(233, 590, 100, 20));
 
         jScrollPane1.setViewportView(jPanel1);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 590, 500));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 620, 600));
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Cross Button2.png"))); // NOI18N
         jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -299,7 +297,7 @@ public class Reg_Page extends javax.swing.JFrame {
 
     private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
         // TODO add your handling code here:
-        System.exit(1);
+        System.exit(0);
     }//GEN-LAST:event_jLabel12MouseClicked
 
     private void togtextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togtextActionPerformed
@@ -370,7 +368,6 @@ public class Reg_Page extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
