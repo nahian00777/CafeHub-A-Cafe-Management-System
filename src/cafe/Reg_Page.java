@@ -56,7 +56,7 @@ public class Reg_Page extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         textArea1 = new java.awt.TextArea();
         jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel16 = new javax.swing.JLabel();
+        username = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -210,6 +210,11 @@ public class Reg_Page extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jButton1.setText("Sign Up");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 540, 121, 33));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 143, 230, 10));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 213, 230, 10));
@@ -232,7 +237,7 @@ public class Reg_Page extends javax.swing.JFrame {
 
         textArea1.setBackground(new java.awt.Color(46, 49, 55));
         textArea1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel1.add(textArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, 230, 130));
+        jPanel1.add(textArea1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, 230, 130));
 
         jComboBox2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
@@ -243,10 +248,10 @@ public class Reg_Page extends javax.swing.JFrame {
         });
         jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 100, -1));
 
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Your Favourite Food");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, -1, -1));
+        username.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        username.setForeground(new java.awt.Color(255, 255, 255));
+        username.setText("Username");
+        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 80, -1));
 
         jTextField3.setBackground(new java.awt.Color(17, 17, 17));
         jTextField3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -319,6 +324,10 @@ public class Reg_Page extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -367,7 +376,6 @@ public class Reg_Page extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -393,5 +401,6 @@ public class Reg_Page extends javax.swing.JFrame {
     private java.awt.TextArea textArea1;
     private javax.swing.JToggleButton toggler;
     private javax.swing.JTextField togtext;
+    private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }
