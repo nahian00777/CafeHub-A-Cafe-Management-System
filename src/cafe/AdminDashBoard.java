@@ -29,29 +29,46 @@ public class AdminDashBoard extends javax.swing.JFrame {
 //    DefaultTableModel model;
 
 	// other objects
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss");
     public AdminDashBoard() {
         initComponents();
         ShowProduct();
     }
-    ResultSet Rs = null;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss");
+    ResultSet Rs = null, rs1 = null;
     Connection Con = null;
-    PreparedStatement St = null;
+    PreparedStatement St = null, st1 = null;
     
     @SuppressWarnings("unchecked")
+    int PrNum;
+    private void CountProd() {
+        try{
+            st1 = (PreparedStatement) Con.createStatement();
+            rs1 = st1.executeQuery("select Max(PNum) from Producttbl");
+            rs1.next();
+            PrNum = rs1.getInt(1) + 1;
+        } catch(Exception e) {
+            
+        }
+    }
     
     private void ShowProduct() {
         try {
              Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
-             St = (PreparedStatement) Con.createStatement();
-             Rs = St.executeQuery("select * from Producttbl");
+//             St = (PreparedStatement) Con.createStatement();
+             PreparedStatement st2 = Con.prepareStatement("Insert into producttbl values(?, ? , ? , ?)");
+             Rs = st2.executeQuery("select * from producttbl");
              DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-//             model.setRowCount(0);
+             model.setRowCount(0);
              while(Rs.next()) {
-                 model.addRow(new String[]{Rs.getString(1), Rs.getString(2), Rs.getString(3), Rs.getString(4)});
+                   String id = String.valueOf(Rs.getInt("PNum"));
+                   String itemname  = Rs.getString("PName");
+                   String category = Rs.getString("Category");
+                   String price = String.valueOf(Rs.getInt("price"));
+//                    String tbData[] = {"1", "nahian", "human", "22"};
+                   String tbData[] = {id, itemname, category, price};
+                   model.addRow(tbData);
              }
-        } catch(Exception e) {
-            
+        } catch(SQLException ex) {
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -235,14 +252,17 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1090, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(958, 958, 958)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1090, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(958, 958, 958)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(8, 8, 8))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -344,14 +364,15 @@ public class AdminDashBoard extends javax.swing.JFrame {
                 .addGap(6, 6, 6)
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -502,18 +523,24 @@ public class AdminDashBoard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+//        String tbData[] = {"1", "nahian", "human", "22"};
+//        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+//        model.addRow(tbData);
         if(jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty() || jComboBox1.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(this, "Missing Information !");
         } else {
             try {
+                CountProd();
                 Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
-                PreparedStatement pst = Con.prepareStatement("Insert into ProductTbl values(?, ? , ? , ?)");
-                pst.setInt(1, 1);
+                PreparedStatement pst = Con.prepareStatement("Insert into producttbl values(?, ? , ? , ?)");
+                pst.setInt(1, PrNum);
                 pst.setString(2, jTextField1.getText());
                 pst.setString(3, jComboBox1.getSelectedItem().toString());
                 pst.setInt(4, Integer.valueOf(jTextField2.getText()));
                 int row = pst.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Item Added");
+                Con.close();
+                ShowProduct();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(this, ex);
             }
