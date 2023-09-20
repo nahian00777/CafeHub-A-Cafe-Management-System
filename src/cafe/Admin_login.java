@@ -343,7 +343,7 @@ public class Admin_login extends javax.swing.JFrame {
                 this.dispose();
             }           
         } else if(jRadioButton3.isSelected()) {   
-                UserGuestDashBoard ugdb = new UserGuestDashBoard();
+                UserGuest ugdb = new UserGuest();
                 ugdb.setVisible(true);
                 this.dispose();
         } else {

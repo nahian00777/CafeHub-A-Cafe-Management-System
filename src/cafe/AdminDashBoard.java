@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.RowFilter;
 import javax.swing.table.*;
 /**
  *
@@ -31,7 +32,8 @@ public class AdminDashBoard extends javax.swing.JFrame {
 	// other objects
     public AdminDashBoard() {
         initComponents();
-        ShowProduct();
+//        ShowProduct();
+        FilterProduct();
     }
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss");
     ResultSet Rs = null, rs1 = null;
@@ -39,33 +41,52 @@ public class AdminDashBoard extends javax.swing.JFrame {
     PreparedStatement St = null, st1 = null;
     
     @SuppressWarnings("unchecked")
-    int PrNum;
-    private void CountProd() {
-        try{
-            st1 = (PreparedStatement) Con.createStatement();
-            rs1 = st1.executeQuery("select Max(PNum) from Producttbl");
-            rs1.next();
-            PrNum = rs1.getInt(1) + 1;
-        } catch(Exception e) {
-            
-        }
-    }
+//    int PrNum;
+//    private void CountProd() {
+//        try{
+//            st1 = (PreparedStatement) Con.createStatement();
+//            rs1 = st1.executeQuery("select Max(PNum) from producttbl");
+//            rs1.next();
+//            PrNum = rs1.getInt(1) + 1;
+//        } catch(Exception e) {
+//            
+//        }
+//    }
     
     private void ShowProduct() {
         try {
              Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
 //             St = (PreparedStatement) Con.createStatement();
-             PreparedStatement st2 = Con.prepareStatement("Insert into producttbl values(?, ? , ? , ?)");
+             PreparedStatement st2 = Con.prepareStatement("Insert into producttbl values(? , ? , ?)");
              Rs = st2.executeQuery("select * from producttbl");
              DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
              model.setRowCount(0);
              while(Rs.next()) {
-                   String id = String.valueOf(Rs.getInt("PNum"));
                    String itemname  = Rs.getString("PName");
                    String category = Rs.getString("Category");
                    String price = String.valueOf(Rs.getInt("price"));
 //                    String tbData[] = {"1", "nahian", "human", "22"};
-                   String tbData[] = {id, itemname, category, price};
+                   String tbData[] = {itemname, category, price};
+                   model.addRow(tbData);
+             }
+        } catch(SQLException ex) {
+        }
+    }
+    private void FilterProduct() {
+        try {
+             Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
+//             St = (PreparedStatement) Con.createStatement();
+             PreparedStatement st2 = Con.prepareStatement("Insert into producttbl values(? , ? , ?)");
+             Rs = st2.executeQuery("select * from producttbl where Category ='" + jComboBox1.getSelectedItem().toString() + "'");
+             DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+             model.setRowCount(0);
+             while(Rs.next()) {
+//                   String id = String.valueOf(Rs.getInt("PNum"));
+                   String itemname  = Rs.getString("PName");
+                   String category = Rs.getString("Category");
+                   String price = String.valueOf(Rs.getInt("price"));
+//                    String tbData[] = {"1", "nahian", "human", "22"};
+                   String tbData[] = {itemname, category, price};
                    model.addRow(tbData);
              }
         } catch(SQLException ex) {
@@ -102,6 +123,10 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jTextField3 = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
@@ -222,6 +247,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -245,6 +271,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setRowHeight(30);
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -282,6 +309,11 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel6.setText("ITEM PANEL");
@@ -302,29 +334,96 @@ public class AdminDashBoard extends javax.swing.JFrame {
             }
         });
 
+        jTable2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Item ID", "Item Name", "Item Category", "Price/Quantity"
+                "Item Name", "Item Category", "Price/Quantity"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jTable2.setRowHeight(30);
+        jTable2.getTableHeader().setReorderingAllowed(false);
+        jTable2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jTable2MouseWheelMoved(evt);
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
+            }
         });
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setText("Category");
 
         jComboBox1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Starters", "Salads", "Main Course", "Burgers", "Desserts", "Drinks" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
+
+        jButton6.setBackground(new java.awt.Color(255, 0, 0));
+        jButton6.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 255, 255));
+        jButton6.setText("Update");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setBackground(new java.awt.Color(255, 0, 0));
+        jButton7.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("View All");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(255, 0, 0));
+        jButton8.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("Search Bar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField3KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -332,6 +431,20 @@ public class AdminDashBoard extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(179, 179, 179)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel6))
@@ -349,14 +462,8 @@ public class AdminDashBoard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1075, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(954, 954, 954)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,18 +472,25 @@ public class AdminDashBoard extends javax.swing.JFrame {
                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)
+                .addGap(17, 17, 17)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(14, 14, 14))
         );
 
@@ -397,6 +511,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
         jLabel7.setText("VIEW ORDERS");
 
+        jTable3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -526,23 +641,34 @@ public class AdminDashBoard extends javax.swing.JFrame {
 //        String tbData[] = {"1", "nahian", "human", "22"};
 //        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
 //        model.addRow(tbData);
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        String name = jTextField1.getText();
+//        String price = jTextField2.getText();
+        for(int i = 0;i < model.getRowCount(); i++) {
+            String name2 = model.getValueAt(i, 1).toString();
+//            JOptionPane.showMessageDialog(this, price2);
+            if(name.equals(name2)) {
+               JOptionPane.showMessageDialog(this, "Item is Already Present !");
+               return;
+            }
+        }
         if(jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty() || jComboBox1.getSelectedIndex() == -1) {
             JOptionPane.showMessageDialog(this, "Missing Information !");
         } else {
             try {
-                CountProd();
+//                CountProd();
                 Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
-                PreparedStatement pst = Con.prepareStatement("Insert into producttbl values(?, ? , ? , ?)");
-                pst.setInt(1, PrNum);
-                pst.setString(2, jTextField1.getText());
-                pst.setString(3, jComboBox1.getSelectedItem().toString());
-                pst.setInt(4, Integer.valueOf(jTextField2.getText()));
+                PreparedStatement pst = Con.prepareStatement("Insert into producttbl values(? , ? , ?)");
+//                pst.setInt(1, PrNum);
+                pst.setString(1, jTextField1.getText());
+                pst.setString(2, jComboBox1.getSelectedItem().toString());
+                pst.setInt(3, Integer.valueOf(jTextField2.getText()));
                 int row = pst.executeUpdate();
                 JOptionPane.showMessageDialog(this, "Item Added");
                 Con.close();
-                ShowProduct();
+                FilterProduct();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(this, ex);
+                JOptionPane.showMessageDialog(this, "Item is Already Present");
             }
         }
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -550,6 +676,92 @@ public class AdminDashBoard extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTable2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jTable2MouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable2MouseWheelMoved
+//    int Key = 0;
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int MyIndex = jTable2.getSelectedRow();
+//        Key = Integer.valueOf(model.getValueAt(MyIndex, 0).toString());
+        jTextField1.setText(model.getValueAt(MyIndex, 0).toString());
+        jTextField2.setText(model.getValueAt(MyIndex, 2).toString());
+    }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if(jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty() || jComboBox1.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "Missing Information !");
+        } else {
+            try {
+//                CountProd();
+                Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
+                PreparedStatement pst = Con.prepareStatement("update producttbl set Category = ? ,price = ? where PName = ?");
+//                pst.setInt(4, Key);
+                pst.setString(3, jTextField1.getText());
+                pst.setString(1, jComboBox1.getSelectedItem().toString());
+                pst.setInt(2, Integer.valueOf(jTextField2.getText()));
+                int row = pst.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Item Updated !!!");
+                Con.close();
+                ShowProduct();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(jTextField1.getText().isEmpty() || jTextField2.getText().isEmpty() || jComboBox1.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(this, "Missing Information !");
+        } else {
+            try {
+//                CountProd();
+                Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
+                PreparedStatement pst = Con.prepareStatement("delete from producttbl where PName = ?");
+//                pst.setInt(1, Key);
+                String s = jTextField1.getText().toString();
+                pst.setString(1, s);
+                int row = pst.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Item Deleted");
+                Con.close();
+                jTextField1.setText("");
+                jTextField2.setText("");
+                ShowProduct();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(this, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        // TODO add your handling code here:
+        FilterProduct();
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        ShowProduct();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        TableRowSorter<DefaultTableModel> model2 = new TableRowSorter(model);
+        jTable2.setRowSorter(model2);
+        model2.setRowFilter(RowFilter.regexFilter(jTextField3.getText()));
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jTextField3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyReleased
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        TableRowSorter<DefaultTableModel> model2 = new TableRowSorter(model);
+        jTable2.setRowSorter(model2);
+        model2.setRowFilter(RowFilter.regexFilter(jTextField3.getText()));
+    }//GEN-LAST:event_jTextField3KeyReleased
 
     /**
      * @param args the command line arguments
@@ -592,6 +804,9 @@ public class AdminDashBoard extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -620,5 +835,6 @@ public class AdminDashBoard extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
