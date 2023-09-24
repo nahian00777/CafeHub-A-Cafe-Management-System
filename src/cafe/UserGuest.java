@@ -781,10 +781,21 @@ public class UserGuest extends javax.swing.JFrame {
                       + "****************************************Thank You**************************************\n");
         }
         rst = true;
+        calc = true;
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        if(calc == false) {
+            int response = JOptionPane.showConfirmDialog(this, "Do you want to Calculate?", "Confirm", JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
+            if(response == JOptionPane.YES_OPTION) {
+                jButton6ActionPerformed(evt);
+                return;
+            } else {
+                return;
+            }
+        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
