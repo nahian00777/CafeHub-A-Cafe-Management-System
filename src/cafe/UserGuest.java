@@ -33,7 +33,9 @@ public class UserGuest extends javax.swing.JFrame {
         FilterProduct();
 //        cafehub();
     }
-    int cnt = 0;
+    int cnt = 0, total = 0;
+    double tax = 0;
+    boolean rst = false, calc = false;
     ResultSet Rs = null, rs1 = null;
     Connection Con = null;
     PreparedStatement St = null, st1 = null;
@@ -68,7 +70,7 @@ public class UserGuest extends javax.swing.JFrame {
         textArea1.setText("**************************************CafeHub***************************************\n" + "Time: " 
         + jTextField1.getText() + "  Date: " + jTextField2.getText() + "\n"
         + "***************************************************************************************\n"
-        +"Item Name:\t\t\t" + "Price($)\n");
+        +"Item Name:\t\t\t\t" + "Price($)\n");
         
     }
     private void ShowProduct() {
@@ -434,6 +436,11 @@ public class UserGuest extends javax.swing.JFrame {
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Place Order");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel5.add(jButton2);
         jButton2.setBounds(954, 674, 138, 51);
 
@@ -452,14 +459,22 @@ public class UserGuest extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jTable2.setRowHeight(30);
+        jTable2.getTableHeader().setReorderingAllowed(false);
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable2MouseClicked(evt);
@@ -467,7 +482,9 @@ public class UserGuest extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
         if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(2).setHeaderValue("Price/Quantity");
+            jTable2.getColumnModel().getColumn(0).setResizable(false);
+            jTable2.getColumnModel().getColumn(1).setResizable(false);
+            jTable2.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jPanel5.add(jScrollPane2);
@@ -529,6 +546,8 @@ public class UserGuest extends javax.swing.JFrame {
         });
         jPanel5.add(jButton7);
         jButton7.setBounds(874, 6, 174, 41);
+
+        textArea1.setEditable(false);
         jPanel5.add(textArea1);
         textArea1.setBounds(631, 84, 460, 580);
 
@@ -560,6 +579,11 @@ public class UserGuest extends javax.swing.JFrame {
         jButton6.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("Calculate");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel5.add(jButton6);
         jButton6.setBounds(804, 674, 119, 51);
 
@@ -687,10 +711,29 @@ public class UserGuest extends javax.swing.JFrame {
         if(cnt == 0) {
             cafehub();
             cnt++;
-            textArea1.setText(textArea1.getText() + cnt + ". " + jTextField4.getText()+"\t\t\t"+jTextField5.getText()+"\n");
+            String price = jTextField5.getText();
+            textArea1.setText(textArea1.getText() + cnt + ". " + jTextField4.getText() + "\t\t\t");
+//            for(int i = a.length(); i < 100; i++) {
+//                textArea1.append(" ");
+//            }
+            textArea1.append(jTextField5.getText()+"\n");
+            int p = Integer.parseInt(price);
+            total += p;
+            tax += (0.05 * (double)total);
+            
         } else {
             int x = cnt + 1;
-            textArea1.setText(textArea1.getText() + x + ". " + jTextField4.getText()+"\t\t\t"+jTextField5.getText()+"\n");
+//            String a = Integer.toString((x));
+//            a = a + jTextField4.getText();
+            String price = jTextField5.getText();
+            textArea1.setText(textArea1.getText() + x + ". " + jTextField4.getText() + "\t\t\t");
+//            for(int i = a.length(); i < 100; i++) {
+//                textArea1.append(" ");
+//            }
+            textArea1.append(jTextField5.getText()+"\n");
+            int p = Integer.parseInt(price);
+            total += p;
+            tax += (0.05 * (double)total);
             cnt++;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -699,6 +742,9 @@ public class UserGuest extends javax.swing.JFrame {
         // TODO add your handling code here:
         textArea1.setText("");
         cnt = 0;
+        total = 0;
+        tax = 0;
+        rst = false;
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
@@ -708,6 +754,38 @@ public class UserGuest extends javax.swing.JFrame {
         jTextField4.setText(model.getValueAt(index, 0).toString());
         jTextField5.setText(model.getValueAt(index, 2).toString());
     }//GEN-LAST:event_jTable2MouseClicked
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if(rst == true) {
+            int response = JOptionPane.showConfirmDialog(this, "Do you want to reset the Cart?", "Confirm", JOptionPane.YES_NO_OPTION , JOptionPane.QUESTION_MESSAGE);
+            if(response == JOptionPane.YES_OPTION) {
+                textArea1.setText("");
+                cnt = 0;
+                total = 0;
+                tax = 0;
+                rst = false;  
+                return;
+            } else {
+                return;
+            }
+        }
+        if(total == 0) {
+            JOptionPane.showMessageDialog(null, "You haven't selected any item");
+        } else {
+            textArea1.setText(textArea1.getText()
+                      + "***************************************************************************************\n"
+                      + "Tax: \t\t\t" + String.format("%.2f", tax) + "\n"
+                      + "Sub Total: \t\t" + total + "\n"
+                      + "Total: \t\t\t" + String.format("%.2f", total + tax) + "\n\n"
+                      + "****************************************Thank You**************************************\n");
+        }
+        rst = true;
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
