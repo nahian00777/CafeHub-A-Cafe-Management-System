@@ -108,7 +108,7 @@ public class UserGuest extends javax.swing.JFrame {
         textArea1.setText("**************************************CafeHub***************************************\n" + "Time: " 
         + jTextField1.getText() + "  Date: " + jTextField2.getText() + "\n"
         + "***************************************************************************************\n"
-        +"Item Name:\t\t\t\t" + "Price($)\n");
+        +"Item Name:\t\t\t" + "Price($)\n");
         
     }
     private void ShowProduct() {
@@ -866,6 +866,7 @@ public class UserGuest extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, ex);
             }
             calc = false;
+            ShowOrder();
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
