@@ -34,6 +34,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
         initComponents();
 //        ShowProduct();
         FilterProduct();
+        ShowOrder();
     }
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH:mm:ss");
     ResultSet Rs = null, rs1 = null;
@@ -52,6 +53,28 @@ public class AdminDashBoard extends javax.swing.JFrame {
 //            
 //        }
 //    }
+    private void ShowOrder() {
+        try {
+             Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cafehub", "root", "hellowin");
+//             St = (PreparedStatement) Con.createStatement();
+             PreparedStatement st2 = Con.prepareStatement("Insert into ordertbl values(?, ? , ? , ? , ?)");
+             Rs = st2.executeQuery("select * from ordertbl");
+             DefaultTableModel model = (DefaultTableModel) jTable3Admin.getModel();
+             model.setRowCount(0);
+             while(Rs.next()) {
+                   String PNum = String.valueOf(Rs.getInt("OrderNum"));
+                   String user  = Rs.getString("Username");
+                   String time = Rs.getString("Time");
+                   String date = Rs.getString("Date");
+                   String price = String.valueOf(Rs.getDouble("Total Price"));
+//                    String tbData[] = {"1", "nahian", "human", "22"};
+                   String tbData[] = {PNum, user, time, date, price};
+                   model.addRow(tbData);
+             }
+        } catch(SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
     
     private void ShowProduct() {
         try {
@@ -110,7 +133,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable1Admin = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -131,7 +154,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        jTable3Admin = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -239,7 +262,7 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jPanel3.setPreferredSize(new java.awt.Dimension(921, 700));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel5.setText("CONTROL PANEL");
+        jLabel5.setText("User Management");
 
         jButton1.setBackground(new java.awt.Color(255, 0, 0));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 20)); // NOI18N
@@ -251,8 +274,8 @@ public class AdminDashBoard extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1Admin.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jTable1Admin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -275,8 +298,8 @@ public class AdminDashBoard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setRowHeight(30);
-        jScrollPane1.setViewportView(jTable1);
+        jTable1Admin.setRowHeight(30);
+        jScrollPane1.setViewportView(jTable1Admin);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -319,8 +342,8 @@ public class AdminDashBoard extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        jLabel6.setText("ITEM PANEL");
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
+        jLabel6.setText("Item Management");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Item Name");
@@ -455,9 +478,6 @@ public class AdminDashBoard extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel6))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(36, 36, 36)
                         .addComponent(jLabel10)
                         .addGap(18, 18, 18)
@@ -471,7 +491,10 @@ public class AdminDashBoard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -519,22 +542,22 @@ public class AdminDashBoard extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel7.setText("VIEW ORDERS");
+        jLabel7.setText("Order Management");
 
-        jTable3.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        jTable3Admin.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        jTable3Admin.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Order Number", "Username", "Total Price", "Accept/Discard"
+                "Order Number", "Username", "Time", "Date", "Total Price"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -545,12 +568,15 @@ public class AdminDashBoard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTable3);
-        if (jTable3.getColumnModel().getColumnCount() > 0) {
-            jTable3.getColumnModel().getColumn(0).setResizable(false);
-            jTable3.getColumnModel().getColumn(1).setResizable(false);
-            jTable3.getColumnModel().getColumn(2).setResizable(false);
+        jTable3Admin.setRowHeight(30);
+        jTable3Admin.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(jTable3Admin);
+        if (jTable3Admin.getColumnModel().getColumnCount() > 0) {
+            jTable3Admin.getColumnModel().getColumn(0).setResizable(false);
+            jTable3Admin.getColumnModel().getColumn(1).setResizable(false);
+            jTable3Admin.getColumnModel().getColumn(2).setResizable(false);
+            jTable3Admin.getColumnModel().getColumn(3).setResizable(false);
+            jTable3Admin.getColumnModel().getColumn(4).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
@@ -558,16 +584,15 @@ public class AdminDashBoard extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGap(12, 12, 12)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1094, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -856,9 +881,9 @@ public class AdminDashBoard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable1Admin;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable3Admin;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
