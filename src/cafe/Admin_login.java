@@ -330,7 +330,7 @@ public class Admin_login extends javax.swing.JFrame {
             if (!jTextField2.getText().equals("User") || !jPasswordField1.getText().equals("User")) {
                 JOptionPane.showMessageDialog(null, "Wrong Usrename or Password!!");
             } else {
-                UserGuest ugdb = new UserGuest();
+                UserGUI ugdb = new UserGUI();
                 ugdb.setVisible(true);
                 this.dispose();
             }
@@ -343,7 +343,7 @@ public class Admin_login extends javax.swing.JFrame {
                 this.dispose();
             }           
         } else if(jRadioButton3.isSelected()) {   
-                Guest ugdb = new Guest();
+                UserGUI ugdb = new UserGUI();
                 ugdb.setVisible(true);
                 this.dispose();
         } else {
