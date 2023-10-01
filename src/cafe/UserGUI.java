@@ -152,7 +152,7 @@ public class UserGUI extends javax.swing.JFrame {
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(1090, 606));
 
-        jTabbedPane1.setBackground(new java.awt.Color(229, 20, 110));
+        jTabbedPane1.setBackground(new java.awt.Color(245, 245, 245));
         jTabbedPane1.setOpaque(true);
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(739, 1000));
 
@@ -1234,7 +1234,7 @@ public class UserGUI extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 969, Short.MAX_VALUE)
+            .addGap(0, 881, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Main Menu", jPanel2);
@@ -1249,7 +1249,7 @@ public class UserGUI extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 969, Short.MAX_VALUE)
+            .addGap(0, 881, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Order History", jPanel3);
@@ -1264,7 +1264,7 @@ public class UserGUI extends javax.swing.JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 969, Short.MAX_VALUE)
+            .addGap(0, 881, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Help & Support", jPanel4);
