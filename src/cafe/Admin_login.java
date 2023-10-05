@@ -330,7 +330,7 @@ public class Admin_login extends javax.swing.JFrame {
             if (!jTextField2.getText().equals("User") || !jPasswordField1.getText().equals("User")) {
                 JOptionPane.showMessageDialog(null, "Wrong Usrename or Password!!");
             } else {
-                UserGUI ugdb = new UserGUI();
+                UserGuest ugdb = new UserGuest();
                 ugdb.setVisible(true);
                 this.dispose();
             }
